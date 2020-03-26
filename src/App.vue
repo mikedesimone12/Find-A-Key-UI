@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+      <v-app-bar app fixed scroll-target="#scroll">
+      <v-toolbar-icon>
+        <v-img
+          alt="App Logo"
+          class="shrink mr-2"
+          contain
+          src="https://pixy.org/src/16/166349.png"
+          transition="scale-transition"
+          width="40"
+        />
+      </v-toolbar-icon>
+      <v-toolbar-title><b>Find-A-Key:</b> Your Music Theory Tool</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn text to='/'>Home</v-btn>
+        <v-btn text to='/About'>About</v-btn>
+      </v-toolbar-items>
+      <v-menu>
+        <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title>Home</v-list-tile-title>
+              <v-list-tile-title>About</v-list-tile-title>
+             </v-list-tile-content>
+          </v-list-tile>   
+        </v-list>
+      </v-menu>
+    </v-app-bar>
+    <v-content>
+        <router-view></router-view>
+    </v-content>
+    <footer>Author: Michael DeSimone</footer>
+  </v-app>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  data: () => ({
+    //
+  }),
+};
+</script>
