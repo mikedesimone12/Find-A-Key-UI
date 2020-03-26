@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-      <v-app-bar app fixed scroll-target="#scroll">
+  <v-app style="backgroundColor:#e6f2ff">
+      <v-app-bar app fixed scroll-target="#scroll"> <!-- TODO: fix this and use v-navigation-bar so it works on mobile -->
       <v-toolbar-icon>
         <v-img
           alt="App Logo"
@@ -39,9 +39,5 @@
 
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  }),
 };
 </script>

@@ -3,25 +3,19 @@
 <v-layout justify-center align-center>
   <div class="home">
       <!-- TODO: RADIO BUTTON ON BOTTOM (OR TOP RIGHT) OF PAGE TO CHANGE BUTTONS FROM FLATS TO SHARPS -->
-      <h2>Option 1:</h2>
+      <h2 class ="">Option 1:</h2>
       <h3>Pick a key here to highlight the chords associated with it...</h3>
-      <ul>
-      <label for="key_notes">Choose a key:</label>
-      <select id="key_notes">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-        <option value="E">A</option>
-        <option value="F">B</option>
-        <option value="G">C</option>
-      <!-- TODO: add sharps and flats -->
-      </select>
-      <select id="key_type">
-        <option value="Major">Major</option>
-        <option value="Minor">Minor</option>
-      </select>
-      </ul>
+      <v-col class="d-flex" cols="12" sm="6">
+        <v-select
+          :items="notes"
+          label="Root Note"
+        ></v-select>
+        <v-spacer></v-spacer>
+        <v-select
+          :items="keyTypes"
+          label="Type"
+        ></v-select>
+      </v-col>
       <br><h2>Option 2:</h2>
       <h3>Click up to seven chords, and the list will narrow down what keys they could be in...</h3><br>
       <h4>Major Chords</h4> <!--buttons grid here--> 
@@ -62,6 +56,12 @@
 
 export default {
   name: 'Home',
+  data: () => ({
+    notes: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+    sharps: ['A#', 'C#', 'D#', 'F#', 'G#'],  // TODO: dynamically change to sharps and flats, and use loop or alphabetizing to position properly
+    flats: ['Bb', 'Db', 'Eb', 'Gb', 'Ab'],
+    keyTypes: ['Major', 'Minor']  // TODO: add harmonic minor and other exotic keys
+  }),
 }
 </script>
 <style scoped>
