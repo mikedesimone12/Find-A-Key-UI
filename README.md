@@ -1,4 +1,4 @@
-# findakey
+# Find-A-Key: Your Music Theory Tool
 
 ## Project setup
 ```
