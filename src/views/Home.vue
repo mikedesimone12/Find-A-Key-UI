@@ -3,7 +3,7 @@
 <v-layout justify-center align-center row>
   <body>
   <div class="home">
-      <h2 class ="">Option 1:</h2><br>
+      <br><br><u><h2 class ="">Option 1:</h2></u><br>
       <h3>Pick a key here to highlight the chords associated with it...</h3>
       <v-col class="d-flex" cols="12">
         <template v-if="sharpsOrFlats == 'sharps'">
@@ -35,13 +35,18 @@
         </template> -->
       </v-col>
        <br><hr><br>
-      <br><h2>Option 2:</h2><br>
-      <h3>Click up to seven chords, and the list will narrow down what keys they could be in.</h3><br>
-      <b>NOTE: Please simplify all specified chord types to their triad form, like so...</b> <!-- TODO: split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
-      <br><i>Maj7, Sus, Add, Dominant 7 &#8594; Major</i>
-      <br><i>Min7, Min6 &#8594; Minor</i>
-      <br><i>Half diminished (m7b5), Fully diminished(dim7) &#8594; Diminished</i><br><br>
-      <h4>Major Chords</h4><br> 
+      <br><u><h2>Option 2:</h2></u><br>
+      <h3>Click up to seven chords, and the list will narrow down what keys they could be in.</h3><br><br>
+    <u><h2>Possible Keys:</h2></u><br>
+    <div class="keys">
+      <ul>
+        <li v-for="possibleKey in possibleKeys" v-bind:key="possibleKey">{{possibleKey}}<br></li> <!-- make this look pretty --> 
+      </ul>
+      </div>
+     <br><br><b>Selected Chords:<template v-for="chord in currentChordList"> {{chord}} <!-- make this look pretty --> </template></b><br>
+      <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
+     <br><i>Chord Count: {{this.currentChordList.length}} </i></div><br>
+      <br><br><h4>Major Chords</h4><br> 
       <div class="chords">
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
@@ -198,91 +203,84 @@
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Adim'); playChord('Adim'); checkKeys();" :class="getColor('Adim')" v-on="on">Adim</v-btn> 
             </template>
-            <span>Contains: A, C, E</span>
+            <span>Contains: A, C, {{sharpsFlats[2]}}</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[0] + 'dim'); playChord(sharpsFlats[0] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[0] + 'dim')" v-on="on">{{sharpsFlats[0]}}dim</v-btn> 
             </template>
-            <span>Contains: {{sharpsFlats[0]}}, {{sharpsFlats[1]}} , F</span>
+            <span>Contains: {{sharpsFlats[0]}}, {{sharpsFlats[1]}} , E</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Bdim'); playChord('Bdim'); checkKeys();" :class="getColor('Bdim')" v-on="on">Bdim</v-btn> 
             </template>
-            <span>Contains: B, D, {{sharpsFlats[3]}}</span>
+            <span>Contains: B, D, F</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Cdim'); playChord('Cdim'); checkKeys();" :class="getColor('Cdim')" v-on="on">Cdim</v-btn> 
             </template>
-            <span>Contains: C, {{sharpsFlats[2]}}, G</span>
+            <span>Contains: C, {{sharpsFlats[2]}}, {{sharpsFlats[3]}}</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[1] + 'dim'); playChord(sharpsFlats[1] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[1] + 'dim')" v-on="on">{{sharpsFlats[1]}}dim</v-btn> 
             </template>
-            <span>Contains: {{sharpsFlats[1]}}, E, {{sharpsFlats[4]}}</span>
+            <span>Contains: {{sharpsFlats[1]}}, E, G</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Ddim'); playChord('Ddim'); checkKeys();" :class="getColor('Ddim')" v-on="on">Ddim</v-btn> 
             </template>
-            <span>Contains: D, F, A</span>
+            <span>Contains: D, F, {{sharpsFlats[4]}}</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[2] + 'dim'); playChord(sharpsFlats[2] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[2] + 'dim')" v-on="on">{{sharpsFlats[2]}}dim</v-btn> 
             </template>
-            <span>Contains: {{sharpsFlats[2]}}, {{sharpsFlats[3]}}, {{sharpsFlats[0]}}</span>
+            <span>Contains: {{sharpsFlats[2]}}, {{sharpsFlats[3]}}, A</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Edim'); playChord('Edim'); checkKeys();" :class="getColor('Edim')" v-on="on">Edim</v-btn> 
             </template>
-            <span>Contains: E, G, B</span>
+            <span>Contains: E, G, {{sharpsFlats[0]}}</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Fdim'); playChord('Fdim'); checkKeys();" :class="getColor('Fdim')" v-on="on">Fdim</v-btn> 
             </template>
-            <span>Contains: F, {{sharpsFlats[4]}}, E</span>
+            <span>Contains: F, {{sharpsFlats[4]}}, B</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[3] + 'dim'); playChord(sharpsFlats[3] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[3] + 'dim')" v-on="on">{{sharpsFlats[3]}}dim</v-btn> 
             </template>
-            <span>Contains: {{sharpsFlats[3]}}, A, {{sharpsFlats[1]}}</span>
+            <span>Contains: {{sharpsFlats[3]}}, A, C</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Gdim'); playChord('Gdim'); checkKeys();" :class="getColor('Gdim')" v-on="on">Gdim</v-btn> 
             </template>
-            <span>Contains: G, {{sharpsFlats[0]}}, D</span>
+            <span>Contains: G, {{sharpsFlats[0]}}, {{sharpsFlats[1]}}</span>
           </v-tooltip>
           <v-tooltip bottom :disabled="isDisabled">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[4] + 'dim'); playChord(sharpsFlats[4] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[4] + 'dim')" v-on="on">{{sharpsFlats[4]}}dim</v-btn> 
             </template>
-            <span>Contains: {{sharpsFlats[4]}}, B, {{sharpsFlats[2]}}</span>
+            <span>Contains: {{sharpsFlats[4]}}, B, D</span>
           </v-tooltip>
       </div><br>
-      <br><br><hr><br><br>
-     <div class="keys">
-     <h2>Possible Keys:</h2>
-     <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
-     <i>Number of chords selected: {{this.currentChordList.length}} </i><br><br>
-     <i>Current chord list: <template v-for="chord in currentChordList"> {{chord}} <!-- make this look pretty --> </template> </i> </div><br>
-      <ul>
-        <li v-for="possibleKey in possibleKeys" v-bind:key="possibleKey">{{possibleKey}}<br></li> <!-- make this look pretty --> 
-        </ul>
-      <br><br>
-      </div>
+      <b><u>NOTE:</u> Please simplify all specified chord types to their triad form, like so...</b> <!-- TODO: split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
+      <br><br><i>Maj7, Sus, Add, Dominant 7 &#8594; Major</i>
+      <br><i>Min7, Min6 &#8594; Minor</i>
+      <br><i>Half diminished (m7b5), Fully diminished(dim7) &#8594; Diminished</i><br><br>
       <hr>
       <br><br>
     <div class="settings">
-      <h2>Settings:</h2><br>
-      <v-btn @click="reset();">Reset</v-btn> Reset Chord Selections<br><br>
+      <u><h2>Settings:</h2></u><br>
+      <v-btn @click="reset();">Reset Chords</v-btn><br><br>
       <v-radio-group v-model="activeRadio" column>
         <v-radio 
         name="activeRadio"
@@ -425,7 +423,7 @@ export default {
             
             var filename = "sounds/scales/" + String(note) + String(this.selectedType) + ".mp3";
             var sound = new Audio(filename);
-            sound.volume = 0.6;
+            sound.volume = 1;
             sound.play();
         }
 
@@ -740,6 +738,10 @@ a {
 .chords{
   display: grid;
   grid-template-columns: repeat(6, 1fr);  
+  grid-auto-rows: minmax(50px, auto);
+} 
+.keys{
+  grid-template-columns: repeat(2, 1fr);  
   grid-auto-rows: minmax(50px, auto);
 } 
 .v-btn {
