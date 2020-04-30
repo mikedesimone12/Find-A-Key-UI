@@ -1,13 +1,14 @@
 <template>
 <v-container fluid fill-height>
-<v-layout justify-center align-center row>
+<v-layout justify-center>
   <body>
   <div class="home">
-      <br><br><u><h2 class ="">Option 1:</h2></u><br>
-      <h3>Pick a key here to highlight the chords associated with it...</h3>
-      <v-col class="d-flex" cols="12">
+      <br><br><u><h2 class ="">Select Key:</h2></u><br>
+      <h3>Select a key from the dropdown to automatically select the chords associated with it.</h3><br>
+      <v-row justify="center">
         <template v-if="sharpsOrFlats == 'sharps'">
         <v-select
+          @change="resetOnlyBtnsAndList()"
           v-model="selectedKey"
           :items="allNotesSharp"
           label="Root Note"
@@ -15,37 +16,50 @@
         </template>
         <template v-else>
         <v-select
+          @change="resetOnlyBtnsAndList()"
           v-model="selectedKey"
           :items="allNotesFlat"
           label="Root Note"
         ></v-select>
         </template> 
         <v-select
+          @change="resetOnlyBtnsAndList()"
           v-model="selectedType"
           :items="keyTypes"
           label="Type"
         ></v-select>
         <v-btn @click="selectChords()">Submit</v-btn> 
         <template v-if="isAudible">
-        <v-btn @click="playScale()">Play</v-btn> 
+        <v-btn @click="playScale()">Play</v-btn>
         </template>
-        <!-- TODO: show the key (rearrange chords if it's minor key) after submit is clicked. make it look pretty
-        <template v-if="selectedKey && selectedType">
-        <br><i>Key of {{selectedKey}} {{selectedType}}:  <template v-for="chord in currentChordList"> {{chord}} </template> </i><br> 
-        </template> -->
-      </v-col>
+        </v-row><br>
+        <v-row justify="center">
+        <template v-if="selectedKey && selectedType && isSubmitted">
+        <br><br><b><u>Key of {{selectedKey}} {{selectedType}}:</u>
+        <template v-if="selectedType == 'Major' && currentChordList.length > 0">
+         {{this.currentChordList.join(', ')}} <!-- display normally if it's a major key -->
+         </template> 
+        <template v-if="selectedType == 'Minor' && currentChordList.length > 0">
+         {{this.currentChordList[5]}}, {{this.currentChordList[6]}}, {{this.currentChordList[0]}}, {{this.currentChordList[1]}}, {{this.currentChordList[2]}},
+         {{this.currentChordList[3]}}, {{this.currentChordList[4]}}  <!-- displayed with root first if it's a minor key -->
+         </template>
+         </b>
+         </template><br>
+        </v-row>
        <br><hr><br>
-      <br><u><h2>Option 2:</h2></u><br>
-      <h3>Click up to seven chords, and the list will narrow down what keys they could be in.</h3><br><br>
-    <u><h2>Possible Keys:</h2></u><br>
-    <div class="keys">
-      <ul>
-        <li v-for="possibleKey in possibleKeys" v-bind:key="possibleKey">{{possibleKey}}<br></li> <!-- make this look pretty --> 
-      </ul>
-      </div>
-     <br><br><b>Selected Chords:<template v-for="chord in currentChordList"> {{chord}} <!-- make this look pretty --> </template></b><br>
-      <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
-     <br><i>Chord Count: {{this.currentChordList.length}} </i></div><br>
+      <br><u><h2>Select Chords:</h2></u><br>
+      <h3>Select up to seven chords to calculate what key(s) they could be in.</h3><br><br>
+      <v-sheet elevation="12" class="pa-12">
+      <h4><u>Note:</u></h4><br> Please simplify all specified chord types to their triad form, like so... <!-- TODO: add more chord buttons for other types. split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
+      <br><br><i><b>Major </b> (1, 3, 5) &larr; Major 7 (maj7), Suspended (sus), Add (add), Dominant 7 (7)</i>
+      <br><i><b>Minor </b> (1, b3, 5) &larr;  Minor 7 (m7), Minor 6 (m6) </i>
+      <br><i><b>Diminished </b> (1, b3, b5) &larr; Half Diminished (m7b5), Fully Diminished(dim7)</i><br><br>
+      </v-sheet>
+     <br><br><br><b>Selected Chords: </b>
+        {{this.currentChordList.join(', ')}} <!-- displaying list using this method instead of v-for, so it is properly comma separated -->
+        <br>
+    <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
+     <br><i>Chord Count: {{this.currentChordList.length}} </i></div>
       <br><br><h4>Major Chords</h4><br> 
       <div class="chords">
           <v-tooltip bottom :disabled="isDisabled">
@@ -272,35 +286,44 @@
             <span>Contains: {{sharpsFlats[4]}}, B, D</span>
           </v-tooltip>
       </div><br>
-      <b><u>NOTE:</u> Please simplify all specified chord types to their triad form, like so...</b> <!-- TODO: split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
-      <br><br><i>Maj7, Sus, Add, Dominant 7 &#8594; Major</i>
-      <br><i>Min7, Min6 &#8594; Minor</i>
-      <br><i>Half diminished (m7b5), Fully diminished(dim7) &#8594; Diminished</i><br><br>
-      <hr>
+      <hr><br><br>
+      <u><h2>Possible Keys:</h2></u><br>
+      <v-row justify="center">
+      <ul>
+        <li v-for="possibleKey in possibleKeys" v-bind:key="possibleKey">{{possibleKey}}<br></li> 
+      </ul>
+      </v-row>
       <br><br>
-    <div class="settings">
+      <hr><br><br>
+    <div row justify="center" class="settings" >
       <u><h2>Settings:</h2></u><br>
       <v-btn @click="reset();">Reset Chords</v-btn><br><br>
-      <v-radio-group v-model="activeRadio" column>
-        <v-radio 
+      <v-row justify="center">
+      <v-radio-group row style="display: inline-block" v-model="activeRadio">
+      <v-radio 
         name="activeRadio"
         key="0"
         label="Sharps"
         id="sharpsRadio"
         :value="0"
         @change="changeSharpsFlats()">
-        </v-radio>
-        <v-radio
+      </v-radio>
+      <v-radio
         name="activeRadio"
         key="1"
         label="Flats"
         :value="1"
         id="flatsRadio"
         @change="changeSharpsFlats()">
-        </v-radio>
+      </v-radio>
       </v-radio-group>
-      <v-switch @change="changeSound()" :label="soundOnOff"></v-switch> 
+      </v-row>
+      <v-row justify="center">
+      <v-switch  @change="changeSound()" :label="soundOnOff"></v-switch> 
+      </v-row>
+      <v-row justify="center">
       <v-switch @change="disableTooltips()" :label="tooltipOnOff"></v-switch> 
+      </v-row>
     </div>
   </div>
   </body>
@@ -314,6 +337,7 @@ export default {
   data () {
     return {
     selectedKey: null,
+    isSubmitted: false,
     selectedType: null,
     sharps: ['A#', 'C#', 'D#', 'F#', 'G#'],  // to be reassigned to sharpsFlats array
     flats: ['Bb', 'Db', 'Eb', 'Gb', 'Ab'], // to be reassigned to sharpsFlats array
@@ -453,7 +477,10 @@ export default {
         }
       },
       reset(){
+        this.selectedType = null;
+        this.selectedKey = null;
         this.currentChordList = [];
+        this.isSubmitted = false;
         this.possibleKeys = [];
         for (let i = 0; i < this.chordBtns.length; i++)   // reset all buttons back to red
             this.chordBtns[i].color = this.red;
@@ -613,12 +640,18 @@ export default {
             }
         }
       },
+      resetOnlyBtnsAndList(){
+        // partial reset... will not be resetting selectedKey or selectedType
+        this.currentChordList = [];
+        this.possibleKeys = [];
+        for (let i = 0; i < this.chordBtns.length; i++)   // reset all buttons back to red
+            this.chordBtns[i].color = this.red;
+      },
       selectChords(){
 
-        this.reset();
+        this.resetOnlyBtnsAndList();
 
-         // TODO: select all the chords associated with the key
-         if(this.selectedKey && this.selectedType){
+         if(this.selectedKey != null && this.selectedType != null){
             if(this.selectedType == "Major"){
                 // if the key type is major, then use selectedKey to find the first chord (root) and  populate the buttons and chordList with that key list/array
                 Object.values(this.musicalKeys).forEach((keyToCheck) => {
@@ -629,10 +662,10 @@ export default {
                     this.checkKeys(); // to populate possibleKeys
                   }
                 });
+                this.isSubmitted = true;  // to handle v-if displaying name of key and its chords
 
             }
             else if(this.selectedType == "Minor"){
-
               Object.values(this.musicalKeys).forEach((keyToCheck) => {
                  // if the key type is minor, then use selectedKey to find the sixth chord (relative minor) and populate the buttons and chordList with that key list/array
                   var relativeMinorChord = this.selectedKey + "m"; // add "m" to the root of the minor key
@@ -643,11 +676,17 @@ export default {
                     this.checkKeys(); // to populate possibleKeys
                   }
                 });
+                this.isSubmitted = true;
 
             }
          }
+         else {
+           alert('Error: Please select a root note and key type before submitting.');
+         }
+         
       },
       addToList(chord) {
+        this.isSubmitted = false; // remove Key Of x xxxx: [chordlist]... when changing the pre-selected key
         const errorMsg = "Error: Cannot select more than 7 chords. There are only 7 chords in a key!";
         var currChord = this.chordBtns.find(obj => {return obj.chord === String(chord)});  // contains currChord.chord, currChord.selected, currChord.color. grabs object associated with "chord" parameter
         if(currChord){
@@ -672,6 +711,7 @@ export default {
         }
       },
       removeFromList(chord){
+        this.isSubmitted = false;
         if(this.currentChordList.length > 0){
           // removing like this cuz there no built-in for removing an element from array by value :(
           var index = this.currentChordList.indexOf(chord);  
@@ -720,8 +760,8 @@ export default {
 }
 </script>
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+h1, h2, h3, h4 {
+  text-align: center;
   color: black;
 }
 ul {
@@ -729,22 +769,18 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: blueviolet;
+  text-align: center;
+    font-weight:bold;
 }
 .chords{
   display: grid;
   grid-template-columns: repeat(6, 1fr);  
   grid-auto-rows: minmax(50px, auto);
 } 
-.keys{
-  grid-template-columns: repeat(2, 1fr);  
-  grid-auto-rows: minmax(50px, auto);
-} 
 .v-btn {
   text-transform: none !important;
+}
+.settings {
+  text-align: center;
 }
 </style> <!-- TODO: change grid to one row of 12 for all notes. or two rows of 6? -->
