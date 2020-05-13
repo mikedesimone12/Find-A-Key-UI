@@ -48,87 +48,82 @@
         </v-row>
        <br><hr><br>
       <br><u><h2>Select Chords:</h2></u><br>
-      <h3>Select up to seven chords to calculate what key(s) they could be in.</h3><br><br>
-      <v-sheet elevation="12" class="pa-12">
-      <h4><u>Note:</u></h4><br> Please simplify all specified chord types to their triad form, like so... <!-- TODO: add more chord buttons for other types. split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
-      <br><br><i><b>Major </b> (1, 3, 5) &larr; Major 7 (maj7), Suspended (sus), Add (add), Dominant 7 (7)</i>
-      <br><i><b>Minor </b> (1, b3, 5) &larr;  Minor 7 (m7), Minor 6 (m6) </i>
-      <br><i><b>Diminished </b> (1, b3, b5) &larr; Half Diminished (m7b5), Fully Diminished(dim7)</i><br><br>
-      </v-sheet>
-     <br><br><br><b>Selected Chords: </b>
+      <h3>Select up to seven chords to calculate what key(s) they could be in.</h3>
+      <br><h3 class="font-weight-light">Click a button once to select the chord. Click the button again to deselect it.</h3>
+     <br><br><b>Selected Chords: </b>
         {{this.currentChordList.join(', ')}} <!-- displaying list using this method instead of v-for, so it is properly comma separated -->
         <br>
     <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
      <br><i>Chord Count: {{this.currentChordList.length}} </i></div>
       <br><br><h4>Major Chords</h4><br> 
       <div class="chords">
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('A'); playChord('A'); checkKeys();" :class="getColor('A')" v-on="on">A</v-btn> 
             </template>
             <span>Contains: A, {{sharpsFlats[1]}}, E</span>
           </v-tooltip>
-       <v-tooltip bottom :disabled="isDisabled">
+       <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[0]); playChord(sharpsFlats[0]);  checkKeys();" :class="getColor(sharpsFlats[0])" v-on="on">{{sharpsFlats[0]}}</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[0]}}, D, F</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click=" addToList('B'); playChord('B'); checkKeys();" :class="getColor('B')" v-on="on">B</v-btn> 
             </template>
             <span>Contains: B, {{sharpsFlats[2]}}, {{sharpsFlats[3]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click=" addToList('C'); playChord('C'); checkKeys();" :class="getColor('C')" v-on="on">C</v-btn> 
             </template>
             <span>Contains: C, E, G</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click=" addToList(sharpsFlats[1]); playChord(sharpsFlats[1]); checkKeys();" :class="getColor(sharpsFlats[1])" v-on="on">{{sharpsFlats[1]}}</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[1]}}, F, {{sharpsFlats[4]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('D'); playChord('D'); checkKeys();" :class="getColor('D')" v-on="on">D</v-btn> 
             </template>
             <span>Contains: D, {{sharpsFlats[3]}}, A</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[2]); playChord(sharpsFlats[2]);  checkKeys();" :class="getColor(sharpsFlats[2])" v-on="on">{{sharpsFlats[2]}}</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[2]}}, G, {{sharpsFlats[0]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('E'); playChord('E'); checkKeys(); " :class="getColor('E')" v-on="on">E</v-btn> 
             </template>
             <span>Contains: E, {{sharpsFlats[4]}}, B</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('F'); playChord('F');  checkKeys();" :class="getColor('F')" v-on="on">F</v-btn> 
             </template>
             <span>Contains: F, A, C</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[3]); playChord(sharpsFlats[3]); checkKeys();" :class="getColor(sharpsFlats[3])" v-on="on">{{sharpsFlats[3]}}</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[3]}}, {{sharpsFlats[0]}}, {{sharpsFlats[1]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('G'); playChord('G');  checkKeys();" :class="getColor('G')" v-on="on">G</v-btn> 
             </template>
             <span>Contains: G, B, D</span>
           </v-tooltip> 
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click=" addToList(sharpsFlats[4]); playChord(sharpsFlats[4]); checkKeys();" :class="getColor(sharpsFlats[4])" v-on="on">{{sharpsFlats[4]}}</v-btn> 
             </template>
@@ -137,73 +132,73 @@
       </div><br>
       <h4>Minor Chords</h4><br>
       <div class="chords">
-        <v-tooltip bottom :disabled="isDisabled">
+        <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Am'); playChord('Am'); checkKeys();" :class="getColor('Am')" v-on="on">Am</v-btn> 
             </template>
             <span>Contains: A, C, E</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[0] + 'm'); playChord(sharpsFlats[0] + 'm'); checkKeys();" :class="getColor(sharpsFlats[0] + 'm')" v-on="on">{{sharpsFlats[0]}}m</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[0]}}, {{sharpsFlats[1]}} , F</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Bm'); playChord('Bm'); checkKeys();" :class="getColor('Bm')" v-on="on">Bm</v-btn> 
             </template>
             <span>Contains: B, D, {{sharpsFlats[3]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Cm'); playChord('Cm'); checkKeys();" :class="getColor('Cm')" v-on="on">Cm</v-btn> 
             </template>
             <span>Contains: C, {{sharpsFlats[2]}}, G</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[1] + 'm'); playChord(sharpsFlats[1] + 'm'); checkKeys();" :class="getColor(sharpsFlats[1] + 'm')" v-on="on">{{sharpsFlats[1]}}m</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[1]}}, E, {{sharpsFlats[4]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Dm'); playChord('Dm'); checkKeys();" :class="getColor('Dm')" v-on="on">Dm</v-btn> 
             </template>
             <span>Contains: D, F, A</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[2] + 'm'); playChord(sharpsFlats[2] + 'm'); checkKeys();" :class="getColor(sharpsFlats[2] + 'm')" v-on="on">{{sharpsFlats[2]}}m</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[2]}}, {{sharpsFlats[3]}}, {{sharpsFlats[0]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Em'); playChord('Em'); checkKeys();" :class="getColor('Em')" v-on="on">Em</v-btn> 
             </template>
             <span>Contains: E, G, B</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Fm'); playChord('Fm'); checkKeys();" :class="getColor('Fm')" v-on="on">Fm</v-btn> 
             </template>
             <span>Contains: F, {{sharpsFlats[4]}}, E</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[3] + 'm'); playChord(sharpsFlats[3] + 'm'); checkKeys();" :class="getColor(sharpsFlats[3] + 'm')" v-on="on">{{sharpsFlats[3]}}m</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[3]}}, A, {{sharpsFlats[1]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Gm'); playChord('Gm'); checkKeys();" :class="getColor('Gm')" v-on="on">Gm</v-btn> 
             </template>
             <span>Contains: G, {{sharpsFlats[0]}}, D</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[4] + 'm'); playChord(sharpsFlats[4] + 'm'); checkKeys();" :class="getColor(sharpsFlats[4] + 'm')" v-on="on">{{sharpsFlats[4]}}m</v-btn> 
             </template>
@@ -213,79 +208,86 @@
       <!-- TODO: dominant 7 -->
       <h4>Diminished Chords</h4><br> <!-- TODO: update tooltips for dim -->
       <div class="chords">
-        <v-tooltip bottom :disabled="isDisabled">
+        <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Adim'); playChord('Adim'); checkKeys();" :class="getColor('Adim')" v-on="on">Adim</v-btn> 
             </template>
             <span>Contains: A, C, {{sharpsFlats[2]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[0] + 'dim'); playChord(sharpsFlats[0] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[0] + 'dim')" v-on="on">{{sharpsFlats[0]}}dim</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[0]}}, {{sharpsFlats[1]}} , E</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Bdim'); playChord('Bdim'); checkKeys();" :class="getColor('Bdim')" v-on="on">Bdim</v-btn> 
             </template>
             <span>Contains: B, D, F</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Cdim'); playChord('Cdim'); checkKeys();" :class="getColor('Cdim')" v-on="on">Cdim</v-btn> 
             </template>
             <span>Contains: C, {{sharpsFlats[2]}}, {{sharpsFlats[3]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[1] + 'dim'); playChord(sharpsFlats[1] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[1] + 'dim')" v-on="on">{{sharpsFlats[1]}}dim</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[1]}}, E, G</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Ddim'); playChord('Ddim'); checkKeys();" :class="getColor('Ddim')" v-on="on">Ddim</v-btn> 
             </template>
             <span>Contains: D, F, {{sharpsFlats[4]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[2] + 'dim'); playChord(sharpsFlats[2] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[2] + 'dim')" v-on="on">{{sharpsFlats[2]}}dim</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[2]}}, {{sharpsFlats[3]}}, A</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Edim'); playChord('Edim'); checkKeys();" :class="getColor('Edim')" v-on="on">Edim</v-btn> 
             </template>
             <span>Contains: E, G, {{sharpsFlats[0]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Fdim'); playChord('Fdim'); checkKeys();" :class="getColor('Fdim')" v-on="on">Fdim</v-btn> 
             </template>
             <span>Contains: F, {{sharpsFlats[4]}}, B</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[3] + 'dim'); playChord(sharpsFlats[3] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[3] + 'dim')" v-on="on">{{sharpsFlats[3]}}dim</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[3]}}, A, C</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList('Gdim'); playChord('Gdim'); checkKeys();" :class="getColor('Gdim')" v-on="on">Gdim</v-btn> 
             </template>
             <span>Contains: G, {{sharpsFlats[0]}}, {{sharpsFlats[1]}}</span>
           </v-tooltip>
-          <v-tooltip bottom :disabled="isDisabled">
+          <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
             <v-btn @click="addToList(sharpsFlats[4] + 'dim'); playChord(sharpsFlats[4] + 'dim'); checkKeys();" :class="getColor(sharpsFlats[4] + 'dim')" v-on="on">{{sharpsFlats[4]}}dim</v-btn> 
             </template>
             <span>Contains: {{sharpsFlats[4]}}, B, D</span>
           </v-tooltip>
-      </div><br>
+      </div><br><br>
+       <v-sheet elevation="12" class="pa-12">
+      <h4><u>Note:</u></h4>
+      <br>Please simplify all specified chord types to their triad form, like so... <!-- TODO: add more chord buttons for other types. split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
+      <br><br><i><b>Major </b> (1, 3, 5) &larr; Major 7 (maj7), Suspended (sus), Add (add), Dominant 7 (7)</i>
+      <br><i><b>Minor </b> (1, b3, 5) &larr;  Minor 7 (m7), Minor 6 (m6) </i>
+      <br><i><b>Diminished </b> (1, b3, b5) &larr; Half Diminished (m7b5), Fully Diminished(dim7)</i><br><br>
+      </v-sheet><br><br>
       <hr><br><br>
       <u><h2>Possible Keys:</h2></u><br>
       <v-row justify="center">
@@ -319,10 +321,10 @@
       </v-radio-group>
       </v-row>
       <v-row justify="center">
-      <v-switch  @change="changeSound()" :label="soundOnOff"></v-switch> 
+      <v-switch v-model="isAudible" @change="changeSound()" :label="soundOnOff"></v-switch> 
       </v-row>
       <v-row justify="center">
-      <v-switch @change="disableTooltips()" :label="tooltipOnOff"></v-switch> 
+      <v-switch v-model="isShowingTips" @change="disableTooltips()" :label="tooltipOnOff"></v-switch> 
       </v-row>
     </div>
   </div>
@@ -344,10 +346,10 @@ export default {
     keyTypes: ['Major', 'Minor'],  // TODO: add harmonic minor and other exotic keys
     red: ['red--text'], // use to change text color on each button, signifiying if it's correct or not
     green: ['green--text'],
-    soundOnOff: "Sound Off",
-    tooltipOnOff: "Tooltips Off",
-    isDisabled: true,
-    isAudible: false,
+    soundOnOff: "Sound On",
+    tooltipOnOff: "Tooltips On",
+    isShowingTips: true,
+    isAudible: true,
     sharpsOrFlats: "sharps",
     activeRadio: 0,
     sharpsFlats: ['A#', 'C#', 'D#', 'F#', 'G#'], // will be dynamically reassigned based on the radio button that is clicked
@@ -395,13 +397,13 @@ export default {
         }
       },
       disableTooltips() {
-        if(this.tooltipOnOff == "Tooltips Off" && this.isDisabled == true){
+        if(this.tooltipOnOff == "Tooltips Off" && this.isShowingTips == false){
           this.tooltipOnOff = "Tooltips On";
-          this.isDisabled = false;
+          this.isShowingTips = true;
         }
         else{
           this.tooltipOnOff = "Tooltips Off";
-          this.isDisabled = true;
+          this.isShowingTips = false;
         }
       },
       getColor(chord){   
@@ -447,7 +449,7 @@ export default {
             
             var filename = "sounds/scales/" + String(note) + String(this.selectedType) + ".mp3";
             var sound = new Audio(filename);
-            sound.volume = 1;
+            sound.volume = 0.6;
             sound.play();
         }
 

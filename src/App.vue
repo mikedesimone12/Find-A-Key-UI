@@ -1,13 +1,50 @@
 <template>
   <v-app style="backgroundColor:#e6f2ff">
-      <v-app-bar app fixed> <!-- TODO: fix this and use v-navigation-bar so it works on mobile -->
-      <v-toolbar-title><b>Find-A-Key:</b> Your Music Theory Tool</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn text to='/'>Home</v-btn>
-        <v-btn text to='/About'>About</v-btn>
-      </v-toolbar-items>
-    </v-app-bar>
+     <v-toolbar class="blue-grey lighten-4" flat app>
+       <v-app-bar-nav-icon @click="openDrawer = !openDrawer"></v-app-bar-nav-icon>
+       <v-toolbar-title>
+        <span>Find-A-Key:</span>
+        <span class="font-weight-light"> Your Music Theory Tool</span>
+       </v-toolbar-title>
+       <v-spacer></v-spacer>
+        <img class="mr-3" :src="require('@/assets/musicNote.png')" height="40"/>
+     </v-toolbar>
+
+    <v-navigation-drawer v-model="openDrawer" app class="blue-grey lighten-4">
+      <v-list>
+
+        <v-list-item router to="/">
+      <v-list-item-action>
+        <v-icon x-large>mdi-home</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+      <v-list-item-title>Home</v-list-item-title>
+      </v-list-item-content>
+        </v-list-item>
+
+
+      <v-list-item router to="/about">
+      <v-list-item-action>
+        <v-icon x-large>mdi-information</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+      <v-list-item-title>About</v-list-item-title>
+      </v-list-item-content>
+        </v-list-item>
+
+
+       <v-list-item href="https://github.com/mikedesimone12/Find-A-Key-UI" target="_blank">
+      <v-list-item-action>
+        <v-icon x-large>mdi-github</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+      <v-list-item-title>Source Code</v-list-item-title>
+      </v-list-item-content>
+        </v-list-item>
+        
+      </v-list>
+    </v-navigation-drawer>
+
     <v-content>
         <router-view></router-view>
     </v-content>
@@ -15,8 +52,12 @@
   </v-app>
 </template>
 <script>
-
 export default {
   name: 'App',
+  data() {
+    return {
+      openDrawer: false
+    }
+  }
 };
 </script>
