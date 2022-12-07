@@ -50,12 +50,7 @@
       <br><u><h2>Select Chords:</h2></u><br>
       <h3>Select up to seven chords to calculate what key(s) they could be in.</h3>
       <br><h3 class="font-weight-light">Click a button once to select the chord. Click the button again to deselect it.</h3>
-     <br><br><b>Selected Chords: </b>
-        {{this.currentChordList.join(', ')}} <!-- displaying list using this method instead of v-for, so it is properly comma separated -->
-        <br>
-    <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
-     <br><i>Chord Count: {{this.currentChordList.length}} </i></div>
-      <br><br><h4>Major Chords</h4><br> 
+      <br><h4>Major Chords</h4><br> 
       <div class="chords">
           <v-tooltip bottom :disabled="!isShowingTips">
             <template v-slot:activator="{ on }">
@@ -280,9 +275,14 @@
             </template>
             <span>Contains: {{sharpsFlats[4]}}, B, D</span>
           </v-tooltip>
-      </div><br><br>
+      </div><br>
+      <b>Selected Chords: </b>
+        {{this.currentChordList.join(', ')}} <!-- displaying list using this method instead of v-for, so it is properly comma separated -->
+        <br>
+    <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
+     <br><i>Chord Count: {{this.currentChordList.length}} </i></div><br>
       <hr><br><br>
-      <u><h2>Possible Keys:</h2></u><br>
+      <u><h3>Possible Keys:</h3></u><br>
       <v-row justify="center">
       <ul>
         <li v-for="possibleKey in possibleKeys" v-bind:key="possibleKey">{{possibleKey}}<br></li> 
