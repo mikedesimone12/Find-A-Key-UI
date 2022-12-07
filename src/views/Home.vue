@@ -281,7 +281,6 @@
         <br>
     <div :class="{'green--text' : this.currentChordList.length <= 4, 'orange--text' : this.currentChordList.length > 4 && this.currentChordList.length <= 6, 'red--text' : this.currentChordList.length == 7}">
      <br><i>Chord Count: {{this.currentChordList.length}} </i></div><br>
-      <hr><br><br>
       <u><h3>Possible Keys:</h3></u><br>
       <v-row justify="center">
       <ul>
