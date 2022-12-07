@@ -281,13 +281,6 @@
             <span>Contains: {{sharpsFlats[4]}}, B, D</span>
           </v-tooltip>
       </div><br><br>
-       <v-sheet elevation="12" class="pa-12">
-      <h4><u>Note:</u></h4>
-      <br>Please simplify all specified chord types to their triad form, like so... <!-- TODO: add more chord buttons for other types. split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
-      <br><br><i><b>Major </b> (1, 3, 5) &larr; Major 7 (maj7), Suspended (sus), Add (add), Dominant 7 (7)</i>
-      <br><i><b>Minor </b> (1, b3, 5) &larr;  Minor 7 (m7), Minor 6 (m6) </i>
-      <br><i><b>Diminished </b> (1, b3, b5) &larr; Half Diminished (m7b5), Fully Diminished(dim7)</i><br><br>
-      </v-sheet><br><br>
       <hr><br><br>
       <u><h2>Possible Keys:</h2></u><br>
       <v-row justify="center">
@@ -327,6 +320,13 @@
       <v-switch v-model="isShowingTips" @change="disableTooltips()" :label="tooltipOnOff"></v-switch> 
       </v-row>
     </div>
+    <v-sheet elevation="12" class="pa-12">
+      <h4><u>Note:</u></h4>
+      <br>Please simplify all specified chord types to their triad form, like so... <!-- TODO: add more chord buttons for other types. split the strings containing any of the minor 7s, major 7s, sus, etc. then just use that as major/minor in checkKeys() -->
+      <br><br><i><b>Major </b> (1, 3, 5) &larr; Major 7 (maj7), Suspended (sus), Add (add), Dominant 7 (7)</i>
+      <br><i><b>Minor </b> (1, b3, 5) &larr;  Minor 7 (m7), Minor 6 (m6) </i>
+      <br><i><b>Diminished </b> (1, b3, b5) &larr; Half Diminished (m7b5), Fully Diminished(dim7)</i><br><br>
+      </v-sheet><br><br>
   </div>
   </body>
   </v-layout>
