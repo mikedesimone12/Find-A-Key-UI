@@ -3,50 +3,7 @@
 <v-layout justify-center>
   <body>
   <div class="home">
-      <br><br><u><h2 class ="">Select Key:</h2></u><br>
-      <h3>Select a key from the dropdown to automatically select the chords associated with it.</h3><br>
-      <v-row justify="center">
-        <template v-if="sharpsOrFlats == 'sharps'">
-        <v-select
-          @change="resetOnlyBtnsAndList()"
-          v-model="selectedKey"
-          :items="allNotesSharp"
-          label="Root Note"
-        ></v-select>
-        </template>
-        <template v-else>
-        <v-select
-          @change="resetOnlyBtnsAndList()"
-          v-model="selectedKey"
-          :items="allNotesFlat"
-          label="Root Note"
-        ></v-select>
-        </template> 
-        <v-select
-          @change="resetOnlyBtnsAndList()"
-          v-model="selectedType"
-          :items="keyTypes"
-          label="Type"
-        ></v-select>
-        <v-btn @click="selectChords()">Submit</v-btn> 
-        <template v-if="isAudible">
-        <v-btn @click="playScale()">Play</v-btn>
-        </template>
-        </v-row><br>
-        <v-row justify="center">
-        <template v-if="selectedKey && selectedType && isSubmitted">
-        <br><br><b><u>Key of {{selectedKey}} {{selectedType}}:</u>
-        <template v-if="selectedType == 'Major' && currentChordList.length > 0">
-         {{this.currentChordList.join(', ')}} <!-- display normally if it's a major key -->
-         </template> 
-        <template v-if="selectedType == 'Minor' && currentChordList.length > 0">
-         {{this.currentChordList[5]}}, {{this.currentChordList[6]}}, {{this.currentChordList[0]}}, {{this.currentChordList[1]}}, {{this.currentChordList[2]}},
-         {{this.currentChordList[3]}}, {{this.currentChordList[4]}}  <!-- displayed with root first if it's a minor key -->
-         </template>
-         </b>
-         </template><br>
-        </v-row>
-       <br><hr><br>
+      <br>
       <br><u><h2>Select Chords:</h2></u><br>
       <h3>Select up to seven chords to calculate what key(s) they could be in.</h3>
       <br><h3 class="font-weight-light">Click a button once to select the chord. Click the button again to deselect it.</h3>
@@ -288,6 +245,59 @@
       </ul>
       </v-row>
       <br><br>
+      <hr>
+      <br><br><u><h2 class ="">Select Key:</h2></u><br>
+      <v-row justify="center">
+        <template v-if="sharpsOrFlats == 'sharps'">
+        <v-select
+          @change="resetOnlyBtnsAndList()"
+          v-model="selectedKey"
+          :items="allNotesSharp"
+          label="Root Note"
+          outlined
+          dense
+        ></v-select>
+        </template>
+        <template v-else>
+        <v-select
+          @change="resetOnlyBtnsAndList()"
+          v-model="selectedKey"
+          :items="allNotesFlat"
+          label="Root Note"
+          class="select mr-3"
+          outlined
+          dense
+        ></v-select>
+        </template> 
+        <v-select
+          @change="resetOnlyBtnsAndList()"
+          v-model="selectedType"
+          :items="keyTypes"
+          label="Type"
+          class="select mr-3"
+          outlined
+          dense
+          
+        ></v-select>
+        <v-btn @click="selectChords()">Submit</v-btn> 
+        <template v-if="isAudible">
+        <v-btn @click="playScale()">Play</v-btn>
+        </template>
+        </v-row><br>
+        <v-row justify="center">
+        <template v-if="selectedKey && selectedType && isSubmitted">
+        <br><br><b><u>Key of {{selectedKey}} {{selectedType}}:</u>
+        <template v-if="selectedType == 'Major' && currentChordList.length > 0">
+         {{this.currentChordList.join(', ')}} <!-- display normally if it's a major key -->
+         </template> 
+        <template v-if="selectedType == 'Minor' && currentChordList.length > 0">
+         {{this.currentChordList[5]}}, {{this.currentChordList[6]}}, {{this.currentChordList[0]}}, {{this.currentChordList[1]}}, {{this.currentChordList[2]}},
+         {{this.currentChordList[3]}}, {{this.currentChordList[4]}}  <!-- displayed with root first if it's a minor key -->
+         </template>
+         </b>
+         </template><br>
+        </v-row>
+       <br>
       <hr><br><br>
     <div row justify="center" class="settings" >
       <u><h2>Settings:</h2></u><br>
